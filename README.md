@@ -36,8 +36,8 @@ jobs:
                       some/other/folder1
                       some/other/folder2
                       some/other/folder3
-				  output-path: output
+                  output-path: output
 
-			- name: Do something with the files
-			  run: ls output
+            - name: Do something with the files
+              run: ls output
 ```
