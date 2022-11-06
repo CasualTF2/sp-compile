@@ -24,4 +24,9 @@ jobs:
 
             - name: Check output
               run: |
-                  ls test
+                  if [ -f "./test/test.smx" ]; then
+                      ls test
+                  else
+                      echo "Could not find ./test/test.smx"
+                      exit 1
+                  fi
