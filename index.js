@@ -23,6 +23,19 @@ const sourceFiles = fs
 	.flat()
 	.filter((l) => typeof l === "string" && l.endsWith(".sp"));
 /**
+ * @param {string} path
+ * @returns {boolean}
+ */
+const isPathExcluded = (path) => {
+	for (const excluded of excludePaths) {
+		// Not all that good but it works for our purposes
+		if (excluded.includes(path)) {
+			return true;
+		}
+	}
+	return false;
+};
+/**
  * @param {string} dir
  * @returns {string[]}
  */
@@ -30,14 +43,14 @@ const getIncludePaths = (dir) => {
 	// We count this as a possible include path if at least one
 	// of the files ends with ".inc" - That's it, very simple.
 	const files = fs.readdirSync(dir);
-	if (excludePaths.includes(dir)) {
+	if (isPathExcluded(dir)) {
 		return [];
 	}
 
 	const output = [];
 	for (const file of files) {
 		const filePath = path.join(dir, file);
-		if (excludePaths.includes(filePath)) {
+		if (isPathExcluded(filePath)) {
 			continue;
 		}
 
