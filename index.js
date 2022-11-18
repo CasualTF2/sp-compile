@@ -9,7 +9,7 @@ const excludePaths = fs
 	.readFileSync("EXCLUDE_PATHS.txt", "utf8")
 	.split("\n")
 	.map((l) => l.replace(/\r/g, "").trim())
-	.filter((l) => l.length > 0)
+	.filter((l) => l.length > 0);
 /** @type {string[]} */
 const sourceFiles = fs
 	.readFileSync("SOURCE_FILES.txt", "utf8")
@@ -26,7 +26,7 @@ const sourceFiles = fs
 const isPathExcluded = (path) => {
 	for (const excluded of excludePaths) {
 		// Not all that good but it works for our purposes
-		if (excluded.includes(path)) {
+		if (path.toLowerCase().includes(excluded.toLowerCase())) {
 			return true;
 		}
 	}
@@ -75,7 +75,7 @@ if (outputPath.length <= 0) {
 }
 
 const includePaths = getIncludePaths(basePath);
-console.log(`Include paths: ${includePaths}, based on exclude paths: ${excludePaths.join(", ")}`);
+console.log(`Include paths: ${includePaths.join(", ")}, based on exclude paths: ${excludePaths.join(", ")}`);
 
 for (const file of sourceFiles) {
 	console.log(`Compiling: ${file}`);
