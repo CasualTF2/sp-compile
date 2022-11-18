@@ -10,9 +10,6 @@ const excludePaths = fs
 	.split("\n")
 	.map((l) => l.replace(/\r/g, "").trim())
 	.filter((l) => l.length > 0)
-	.map((line) => glob.sync(line))
-	.flat()
-	.filter((l) => typeof l === "string" && l.length > 0);
 /** @type {string[]} */
 const sourceFiles = fs
 	.readFileSync("SOURCE_FILES.txt", "utf8")
