@@ -15,7 +15,7 @@ runs:
     using: composite
     steps:
         - name: Setup SourcePawn
-          uses: BeepIsla/setup-sp@master
+          uses: rumblefrog/setup-sp@master
           with:
               version: 1.12.x
 
