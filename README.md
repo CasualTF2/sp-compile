@@ -32,7 +32,7 @@ jobs:
                       src/file1.sp
                       src/file2.sp
                       src/file3.sp
-                  exclude-paths: |
+                  include-paths: |
                       some/other/folder1
                       some/other/folder2
                       some/other/folder3

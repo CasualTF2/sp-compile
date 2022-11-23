@@ -21,6 +21,8 @@ jobs:
               with:
                   source-files: |
                       test/test.sp
+                  include-paths: |
+                      test/include
 
             - name: Check output
               run: |

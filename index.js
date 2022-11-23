@@ -5,8 +5,8 @@ import glob from "glob";
 
 const basePath = process.argv.slice(2).join(" ");
 /** @type {string[]} */
-const excludePaths = fs
-	.readFileSync("EXCLUDE_PATHS.txt", "utf8")
+const includePaths = fs
+	.readFileSync("INCLUDE_PATHS.txt", "utf8")
 	.split("\n")
 	.map((l) => l.replace(/\r/g, "").trim())
 	.filter((l) => l.length > 0);
@@ -19,48 +19,6 @@ const sourceFiles = fs
 	.map((line) => glob.sync(path.join(basePath, line), { nodir: true, absolute: true }))
 	.flat()
 	.filter((l) => typeof l === "string" && l.endsWith(".sp"));
-/**
- * @param {string} path
- * @returns {boolean}
- */
-const isPathExcluded = (path) => {
-	for (const excluded of excludePaths) {
-		// Not all that good but it works for our purposes
-		if (path.toLowerCase().includes(excluded.toLowerCase())) {
-			return true;
-		}
-	}
-	return false;
-};
-/**
- * @param {string} dir
- * @returns {string[]}
- */
-const getIncludePaths = (dir) => {
-	// We count this as a possible include path if at least one
-	// of the files ends with ".inc" - That's it, very simple.
-	const files = fs.readdirSync(dir);
-	if (isPathExcluded(dir)) {
-		return [];
-	}
-
-	const output = [];
-	for (const file of files) {
-		const filePath = path.join(dir, file);
-		if (isPathExcluded(filePath)) {
-			continue;
-		}
-
-		const stat = fs.statSync(filePath);
-		if (stat.isDirectory()) {
-			output.push(...getIncludePaths(filePath));
-		} else if (stat.isFile() && filePath.endsWith(".inc")) {
-			output.push(dir);
-			break;
-		}
-	}
-	return output;
-};
 let outputPath = fs.readFileSync("OUTPUT_PATH.txt", "utf8").replace(/[\r\n]/g, "");
 if (outputPath.length <= 0) {
 	outputPath = undefined;
@@ -74,8 +32,7 @@ if (outputPath.length <= 0) {
 	});
 }
 
-const includePaths = getIncludePaths(basePath);
-console.log(`Include paths: ${includePaths.join(", ")}, based on exclude paths: ${excludePaths.join(", ")}`);
+console.log(`Include paths: ${includePaths.join(", ")}`);
 
 for (const file of sourceFiles) {
 	console.log(`Compiling: ${file}`);
@@ -90,7 +47,7 @@ for (const file of sourceFiles) {
 			"-O2", // Optimization level (0=none, 2=full)
 			"-v2", // Verbosity level; 0=quiet, 1=normal, 2=verbose
 			`-i${process.env.includePath}`, // SourcePawn include path from setup-sp
-			includePaths.map((i) => `-i${i}`), // All paths which have at least one ".inc" file and are not excluded
+			includePaths.map((i) => `-i${i}`), // INclude paths
 			`-o ${outputPath || parsed.dir}/${parsed.base.replace(".sp", ".smx")}` // Output path, either from input or same as source file
 		]
 			.flat()

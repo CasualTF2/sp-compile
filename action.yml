@@ -1,11 +1,11 @@
 name: SourcePawn Compile
-description: Setup and compile SourcePawn plugins, recursively finds all include paths
+description: Setup and compile SourcePawn plugins in a uniform way
 inputs:
     source-files:
         description: List of paths to compile sp extension only
         required: true
-    exclude-paths:
-        description: List of paths to exclude from the finding algorithm
+    include-paths:
+        description: List of paths to include
         required: false
     output-path:
         description: Path to write the output files to - Names will be the same as the input file except the extension changed to smx - If not defined will put the smx file right next to the sp file
@@ -30,7 +30,7 @@ runs:
               ORIGINAL_CWD=$(pwd)
               cd ${{ github.action_path }}
               echo -e "${{ inputs.source-files }}" >> SOURCE_FILES.txt
-              echo -e "${{ inputs.exclude-paths }}" >> EXCLUDE_PATHS.txt
+              echo -e "${{ inputs.include-paths }}" >> INCLUDE_PATHS.txt
               echo -e "${{ inputs.output-path }}" >> OUTPUT_PATH.txt
               npm ci
               node index.js $ORIGINAL_CWD
