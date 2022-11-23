@@ -8,7 +8,7 @@ const basePath = process.argv.slice(2).join(" ");
 const includePaths = fs
 	.readFileSync("INCLUDE_PATHS.txt", "utf8")
 	.split("\n")
-	.map((l) => l.replace(/\r/g, "").trim())
+	.map((l) => path.join(basePath, l.replace(/\r/g, "").trim()))
 	.filter((l) => l.length > 0);
 /** @type {string[]} */
 const sourceFiles = fs
