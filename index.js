@@ -54,7 +54,7 @@ function downloadDependencies(dependencies) {
 
 		let url = `https://github.com/${dependency.user}/${dependency.repo}`;
 		if (process.env.GITHUB_ACCESS_TOKEN) {
-			url = `https://${dependecy.user}:${process.env.GITHUB_ACCESS_TOKEN}@github.com/${dependency.user}/${dependency.repo}`;
+			url = `https://${dependency.user}:${process.env.GITHUB_ACCESS_TOKEN}@github.com/${dependency.user}/${dependency.repo}`;
 		}
 
 		childProcess.execSync(`git clone ${url} ${dependencyPath}`, {

@@ -40,6 +40,5 @@ runs:
               echo -e "${{ inputs.output-path }}" >> OUTPUT_PATH.txt
               echo -e "${{ inputs.install-json-path-override }}" >> INSTALL_JSON_PATH_OVERRIDE.txt
               npm ci
-              GITHUB_ACCESS_TOKEN="${{ inputs.github-access-token }}"
-              node index.js $ORIGINAL_CWD
+              GITHUB_ACCESS_TOKEN="${{ inputs.github-access-token }}" node index.js $ORIGINAL_CWD
               cd $ORIGINAL_CWD
