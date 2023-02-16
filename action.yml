@@ -4,11 +4,17 @@ inputs:
     source-files:
         description: List of paths to compile sp extension only
         required: true
-    include-paths:
-        description: List of paths to include
+    extra-include-paths:
+        description: Additional include paths not parsed from "install.json"
         required: false
+    install-json-path-override:
+        description: Default path is "<working directory>/install.json"
+        requireD: false
     output-path:
-        description: Path to write the output files to - Names will be the same as the input file except the extension changed to smx - If not defined will put the smx file right next to the sp file
+        description: Folder path to write the output files to, files will be "<input source>.smx"
+        required: false
+    github-access-token:
+        description: Access token for downloading dependencies
         required: false
 
 runs:
@@ -30,8 +36,10 @@ runs:
               ORIGINAL_CWD=$(pwd)
               cd ${{ github.action_path }}
               echo -e "${{ inputs.source-files }}" >> SOURCE_FILES.txt
-              echo -e "${{ inputs.include-paths }}" >> INCLUDE_PATHS.txt
+              echo -e "${{ inputs.extra-include-paths }}" >> EXTRA_INCLUDE_PATHS.txt
               echo -e "${{ inputs.output-path }}" >> OUTPUT_PATH.txt
+              echo -e "${{ inputs.install-json-path-override }}" >> INSTALL_JSON_PATH_OVERRIDE.txt
               npm ci
+              GITHUB_ACCESS_TOKEN="${{ inputs.github-access-token }}"
               node index.js $ORIGINAL_CWD
               cd $ORIGINAL_CWD

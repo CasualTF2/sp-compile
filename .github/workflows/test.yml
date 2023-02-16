@@ -21,8 +21,9 @@ jobs:
               with:
                   source-files: |
                       test/test.sp
-                  include-paths: |
+                  extra-include-paths: |
                       test/include
+                  install-json-path-override: test/install.json
 
             - name: Check output
               run: |

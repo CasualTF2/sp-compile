@@ -9,8 +9,5 @@
 	},
 	"keywords": [],
 	"author": "BeepIsla",
-	"license": "MIT",
-	"dependencies": {
-		"glob": "^8.0.3"
-	}
+	"license": "MIT"
 }
